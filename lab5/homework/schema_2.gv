@@ -1,0 +1,107 @@
+digraph G {
+  edge [len=7]
+
+  subgraph cluster_0 {
+    node [style=filled]
+    agency_exe [label = "program: Agency",shape=Mdiamond]
+    agency_queue [label = "queue: {agency name}-sa-main"]
+    agency_user [label = "user", shape=octagon]
+    
+    agency_user -> agency_exe [label="issues commands",len=2]
+    agency_exe -> agency_user [label="displays messages",len=2]
+    
+    agency_queue -> agency_exe [label="reads",len=4]
+    label = "Space Agency"
+    color = red
+  }
+
+  subgraph cluster_1 {
+    node [style=filled]
+    label = "Service queues"
+    people_service [label = "queue: people service"]
+    cargo_service [label = "queue: cargo service"]
+    satelite_service [label = "queue: satelite service"]
+    
+    
+    people_service -> cargo_service [style=invis,len=4]
+    satelite_service -> cargo_service [style=invis,len=4]
+    satelite_service -> people_service [style=invis,len=4]
+    
+    color=blue
+  }
+subgraph cluster_4 {
+      node [style=filled]
+      label = "Admin"
+      admin_exe [label = "program: Admin",shape=Mdiamond]
+      admin_queue [label = "{ephemeral queue}"]
+      admin_user [label = "user",shape=octagon]
+      
+      admin_user -> admin_exe [label="issues messages to multicast",len=2]
+      admin_exe -> admin_user [label="dosplays all messages",len=2]
+      
+      
+      admin_queue -> admin_exe [label="reads",len=3]
+      
+  }
+  
+  subgraph cluster_2 {
+      node [style=filled]
+      label = "Delivery Service"
+      delivery_1_queue [label = "queue: {delivery service name}-ds-main"]
+      delivery_1_exe [label = "program: Delivery",shape=Mdiamond]
+      delivery_1_launchpad [label = "user/launch pad",shape=octagon]
+      
+      delivery_1_launchpad -> delivery_1_exe [label="triggers confirmations",len=2]
+      delivery_1_exe -> delivery_1_launchpad [label="sends delivery information",len=2]
+      
+      delivery_1_queue -> delivery_1_exe [label="reads",len=2]
+      
+  }
+  
+  
+  subgraph cluster_3 {
+      node [style=filled]
+      label = "Delivery Service"
+      delivery_2_queue [label = "queue: {delivery service name}-ds-main"]
+      delivery_2_exe [label = "program: Delivery",shape=Mdiamond]
+      delivery_2_launchpad [label = "user/launch pad"]
+      
+      delivery_2_launchpad -> delivery_2_exe [label="triggers confirmations",len=2]
+      delivery_2_exe -> delivery_2_launchpad [label="sends delivery information",len=2]
+      
+      delivery_2_queue -> delivery_2_exe [label="reads",len=2]
+      
+  }
+  
+  
+  exchange [shape = Msquare]
+  
+  
+  exchange -> agency_queue [label = "agency.{Agency name}.*.*",color=red]
+  exchange -> agency_queue [label = "agencies.*.*",color=red]
+  exchange -> agency_queue [label = "everyone.*.*",color=red]
+  
+  agency_exe -> exchange [label = "writes to: \nservice.{service type}.{agency name}.{id}",color=blue]
+  
+  exchange -> people_service [label = "service.people.*.*",len=6,color=red]
+  exchange -> cargo_service [label = "service.cargo.*.*",len=6,color=red]
+  exchange -> satelite_service [label = "service.satelite.*.*",len=6,color=red]
+  
+  exchange -> delivery_1_queue [label = "everyone.*.*",color=red]
+  exchange -> delivery_1_queue [label = "delivery_services.*.*",color=red]
+  exchange -> delivery_2_queue [label = "everyone.*.*",color=red]
+  exchange -> delivery_2_queue [label = "delivery_services.*.*",color=red]
+  
+  people_service -> delivery_1_exe [label="reads"]
+  cargo_service -> delivery_1_exe [label="reads",len=4]
+  delivery_1_exe -> exchange [label="writes to: \nagency.{destination agency name}.{delivery services name}.{response id}",color=blue]
+  
+  people_service -> delivery_2_exe [label="reads"]
+  satelite_service -> delivery_2_exe [label="reads",len=4]
+  delivery_2_exe -> exchange [label="writes to: \nagency.{destination agency name}.{delivery services name}.{response id}",color=blue]
+  
+  
+  exchange -> admin_queue [label = "#",len=4,color=red]
+  admin_exe -> exchange [label = "writes to: \n{delivery_services|everyone|agencies}.admin.{id}",len=4,color=blue]
+  
+}
