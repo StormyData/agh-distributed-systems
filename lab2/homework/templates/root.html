@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+    Weather api
+    <form id="weather-form" action="javascript:onSubmit()" method="get">
+      <label>
+        city name
+        <input type="text" name="city"/>
+      </label><br>
+      <label>
+        api key
+        <input type="text" name="apikey"/>
+      </label><br>
+      <input type="submit"/>
+    </form>
+<br><br>
+    Login<br>
+    <form action="auth/token" method="post" target="_blank">
+      <label>
+        username
+        <input type="text" name="username"/>
+      </label><br>
+      <label>
+        password
+        <input type="password" name="password"/>
+      </label><br>
+      <input type="hidden" name="grant_type" value="password"/>
+      <input type="submit"/>
+    </form>
+  <script>
+    function onSubmit() {
+
+      const form = document.getElementById("weather-form");
+      const form_data = new FormData(form);
+      const api_key = form_data.get("apikey");
+      const city = form_data.get("city");
+      const XHR = new XMLHttpRequest();
+
+      XHR.open("GET", "/api/weather?city=" + encodeURIComponent(city), true);
+
+      XHR.setRequestHeader("Authorization", "Bearer " + api_key);
+
+      XHR.addEventListener("load", () => {
+        const iframe = document.getElementById("response");
+        iframe.srcdoc = XHR.response;
+      })
+      XHR.send(form_data);
+    }
+  </script>
+  <iframe id="response">
+  </iframe>
+</body>
+</html>

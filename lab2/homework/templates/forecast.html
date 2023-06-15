@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forecast</title>
+</head>
+<body>
+  Forecast for user {{username}} for {{location_name}} ({{lat}}, {{long}})
+  <table>
+    <tbody>
+    <tr><td>Lowest temp at</td><td>{{min_temp_when}}</td></tr>
+    <tr><td>Lowest temp</td><td>{{min_temp}} deg C</td></tr>
+
+    <tr><td>Highest temp at</td><td>{{max_temp_when}}</td></tr>
+    <tr><td>Highest temp</td><td>{{max_temp}} deg C</td></tr>
+
+    <tr><td>Avg temp</td><td>{{avg_temp}} deg C</td></tr>
+    </tbody>
+  </table>
+  Data source = AccuWeather
+<table>
+    <tbody>
+    <tr><td>Lowest temp in</td><td>{{timer_min_temp_when}} h</td></tr>
+    <tr><td>Lowest temp</td><td>{{timer_min_temp}} deg C</td></tr>
+
+    <tr><td>Highest temp at</td><td>{{timer_max_temp_when}} h</td></tr>
+    <tr><td>Highest temp</td><td>{{timer_max_temp}} deg C</td></tr>
+
+    <tr><td>Avg temp</td><td>{{timer_avg_temp}} deg C</td></tr>
+    </tbody>
+  </table>
+  Data source = 7timer
+</body>
+</html>

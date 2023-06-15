@@ -1,0 +1,336 @@
+{
+	"info": {
+		"_postman_id": "555032bf-e294-4d3a-83f9-36cdb18ab741",
+		"name": "lab2hw",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "my_service",
+			"item": [
+				{
+					"name": "Get weather",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8000/api/weather?city=Kraków",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"api",
+								"weather"
+							],
+							"query": [
+								{
+									"key": "city",
+									"value": "Kraków"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Log in",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "username",
+									"value": "johndoe",
+									"type": "default"
+								},
+								{
+									"key": "password",
+									"value": "secret",
+									"type": "default"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "localhost:8000/auth/token",
+							"host": [
+								"localhost"
+							],
+							"port": "8000",
+							"path": [
+								"auth",
+								"token"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "oauth2",
+				"oauth2": [
+					{
+						"key": "password",
+						"value": "secret",
+						"type": "string"
+					},
+					{
+						"key": "username",
+						"value": "johndoe",
+						"type": "string"
+					},
+					{
+						"key": "accessTokenUrl",
+						"value": "localhost:8000/auth/token",
+						"type": "string"
+					},
+					{
+						"key": "grant_type",
+						"value": "password_credentials",
+						"type": "string"
+					},
+					{
+						"key": "addTokenTo",
+						"value": "header",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "accuWeather",
+			"item": [
+				{
+					"name": "Get city code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dataservice.accuweather.com/locations/v1/cities/search?q=Kraków",
+							"protocol": "https",
+							"host": [
+								"dataservice",
+								"accuweather",
+								"com"
+							],
+							"path": [
+								"locations",
+								"v1",
+								"cities",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "Kraków"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Forecast (Template)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dataservice.accuweather.com/forecasts/v1/daily/5day/{{LOCATION_KEY}}?metric=true",
+							"protocol": "https",
+							"host": [
+								"dataservice",
+								"accuweather",
+								"com"
+							],
+							"path": [
+								"forecasts",
+								"v1",
+								"daily",
+								"5day",
+								"{{LOCATION_KEY}}"
+							],
+							"query": [
+								{
+									"key": "metric",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Forecast",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://dataservice.accuweather.com/forecasts/v1/daily/5day/2-274455_1_AL?metric=true",
+							"protocol": "https",
+							"host": [
+								"dataservice",
+								"accuweather",
+								"com"
+							],
+							"path": [
+								"forecasts",
+								"v1",
+								"daily",
+								"5day",
+								"2-274455_1_AL"
+							],
+							"query": [
+								{
+									"key": "metric",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "{{ACCUWEATHER}}",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "apikey",
+						"type": "string"
+					},
+					{
+						"key": "in",
+						"value": "query",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "7timer",
+			"item": [
+				{
+					"name": "Get Forecast",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://www.7timer.info/bin/api.pl?lat=50.062&lon=19.939&product=civil&output=json",
+							"protocol": "http",
+							"host": [
+								"www",
+								"7timer",
+								"info"
+							],
+							"path": [
+								"bin",
+								"api.pl"
+							],
+							"query": [
+								{
+									"key": "lat",
+									"value": "50.062"
+								},
+								{
+									"key": "lon",
+									"value": "19.939"
+								},
+								{
+									"key": "product",
+									"value": "civil"
+								},
+								{
+									"key": "output",
+									"value": "json"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ACCUWEATHER",
+			"value": "<<REDACTED>>",
+			"type": "default"
+		}
+	]
+}

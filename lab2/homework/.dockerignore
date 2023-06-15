@@ -1,0 +1,9 @@
+**
+!static/**
+!templates/**
+!depends/**
+!routers/**
+!main.py
+!requirements.txt
+depends/__pycache__/**
+routers/__pycache__/**
