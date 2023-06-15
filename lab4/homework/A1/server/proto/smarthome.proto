@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "sr.grpc.gen";
+option java_outer_classname = "SmartHomeProto";
+
+package smarthome;
+
+
+enum GenericSensorControlerSensorType {
+    LIGHT = 0;
+    TEMPERATURE = 1;
+    HUMIDITY = 2;
+}
+
+enum SmartBulbState {
+    ON = 0;
+    OFF = 1;
+}
+
+message Empty {
+
+}
+
+
+message GenericSensorControlerSubArg {
+    int32 sensorId = 1;
+    int32 delayMilis = 2;
+}
+
+message GenericSensorControlerGetArg {
+    int32 sensorId = 1;
+}
+message GenericSensorControlerDescArg {
+    int32 sensorId = 1;
+}
+
+message GenericSensorControlerSensorValue {
+    double currentValue = 1;
+}
+
+message GenericSensorControlerDescribeSensors {
+    message SensorDescription {
+        int32 id = 1;
+        string name = 2;
+        string location = 3;
+        GenericSensorControlerSensorType type = 4;
+        string unit = 5;
+    }
+    repeated SensorDescription sensors = 1;
+}
+
+message SmartBulbStateMessage {
+    SmartBulbState state = 1;
+}
+
+
+service GenericSensorControler {
+    rpc SubReadings(GenericSensorControlerSubArg) returns (stream GenericSensorControlerSensorValue) {}
+    rpc GetReadings(GenericSensorControlerGetArg) returns (GenericSensorControlerSensorValue) {}
+    rpc DescribeSensors(Empty) returns (GenericSensorControlerDescribeSensors) {}
+    rpc DescribeSensor(GenericSensorControlerDescArg) returns (GenericSensorControlerDescribeSensors.SensorDescription) {}
+}
+
+
+service SmartBulb {
+    rpc TurnOn(Empty) returns (Empty) {}
+    rpc TurnOff(Empty) returns (Empty) {}
+    rpc GetState(Empty) returns (SmartBulbStateMessage) {}
+}

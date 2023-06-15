@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "sr.middleware.gen";
+option java_outer_classname = "ExampleProto";
+option csharp_namespace = "ExampleProto";
+
+package example;
+
+message MessageWithOptionalField {
+	optional int32 arg1 = 1;
+	int32 arg2 = 2;
+}
+
+message MessageWithoutOptionalField {
+	int32 arg1 = 1;
+	int32 arg2 = 2;
+}
+
+message MessageReturned {
+	int32 return = 1;
+}
+
+service Example {
+	rpc MethodWithOptionalArgs(MessageWithOptionalField) returns (MessageReturned) {}
+	rpc MethodWithoutOptionalArgs(MessageWithoutOptionalField) returns (MessageReturned) {}
+}

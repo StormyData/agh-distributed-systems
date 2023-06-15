@@ -1,0 +1,8 @@
+opisy dla ICE i dla GRPC są odpowiednio w ICE.md i GRPC.md
+
+
+ogólne wnioski GRPC jest dużo prostrzym protokołem od ICE jeżeli chodzi o wartości opcjonalne
+
+w GRPC po prostu nie są uwzględniane przy kodowaniu
+w ICE jeżeli są to powiększają wielkość wiadomości, zwłaszcza jeśli znajdują się w slice (klasa lub wyjątek), 
+gdzie poza dodatkowymi bajtami z samego bycia wartością opcjonalną trzeba jeszcze ustawić flagę i dodać bajt stopu
